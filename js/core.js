@@ -4,6 +4,7 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwW8wW0SAWOOffHHOecQ
 let currentNumber = 0;
 let currentName = "";
 
+// 讀取今日取號數
 async function loadTodayCount() {
   try {
     const res = await fetch(SCRIPT_URL);
@@ -14,29 +15,38 @@ async function loadTodayCount() {
   }
 }
 
+// 取號
 async function getNextNumber(name){
   currentName = name;
   let lastNumber = localStorage.getItem("lastNumber");
   currentNumber = lastNumber ? parseInt(lastNumber) + 1 : 1;
-  localStorage.setItem("lastNumber", currentNumber);
 
+  // 先存 localStorage
+  localStorage.setItem("lastNumber", currentNumber);
   localStorage.setItem("currentName", currentName);
   localStorage.setItem("currentNumber", currentNumber);
 
-  await fetch(SCRIPT_URL, {
-    method:"POST",
-    body: JSON.stringify({name:currentName, number:currentNumber, seeds:0})
-  });
+  // POST 到 Google Sheet
+  try {
+    await fetch(SCRIPT_URL, {
+      method:"POST",
+      body: JSON.stringify({name:currentName, number:currentNumber, seeds:0})
+    });
+  } catch(e){
+    console.warn("POST 失敗，但仍跳轉 show.html");
+  }
 
+  // 立即跳轉
   window.location.href = "show.html";
 }
 
+// show.html 種子卡頁面
 function loadShowPage(){
   const number = localStorage.getItem("currentNumber");
   const name = localStorage.getItem("currentName");
 
-  document.getElementById("displayNumber").innerText = number;
-  document.getElementById("displayName").innerText = name;
+  document.getElementById("displayNumber").innerText = number || "0";
+  document.getElementById("displayName").innerText = name || "";
 
   const seedBtns = document.querySelectorAll(".seed-btn");
   let collected = 0;
@@ -48,10 +58,14 @@ function loadShowPage(){
       collected++;
       if(collected === 5){
         document.getElementById("finishSection").style.display="block";
-        await fetch(SCRIPT_URL, {
-          method:"POST",
-          body: JSON.stringify({name:name, number:number, seeds:5})
-        });
+        try{
+          await fetch(SCRIPT_URL,{
+            method:"POST",
+            body: JSON.stringify({name:name, number:number, seeds:5})
+          });
+        }catch(e){
+          console.warn("更新種子卡失敗");
+        }
       }
     });
   });
