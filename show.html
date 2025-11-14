@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抽號結果</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>您的號碼是：</h1>
+    <div id="displayNumber" class="number">0</div>
+    <div id="displayName" class="name">姓名</div>
+
+    <h2>種子卡收集</h2>
+    <div id="seedContainer" class="seed-container">
+      <button class="seed-btn">1</button>
+      <button class="seed-btn">2</button>
+      <button class="seed-btn">3</button>
+      <button class="seed-btn">4</button>
+      <button class="seed-btn">5</button>
+    </div>
+
+    <div id="finishSection" style="display:none;">
+      <h2>收集完成！</h2>
+      <button id="backBtn">可重新領號</button>
+    </div>
+  </div>
+
+  <script src="js/core.js"></script>
+  <script>
+    loadShowPage();
+  </script>
+</body>
+</html>

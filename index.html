@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>取號系統首頁</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <img src="img/logo.png" alt="Logo" class="logo">
+
+    <h1>今日已取號：</h1>
+    <div id="todayCount" class="count">載入中...</div>
+
+    <div class="input-box">
+      <input type="text" id="userName" placeholder="請輸入姓名或電話">
+      <button id="getNumberBtn">取號</button>
+    </div>
+  </div>
+
+  <script src="js/core.js"></script>
+  <script>
+    loadTodayCount();
+    document.getElementById("getNumberBtn").addEventListener("click"
