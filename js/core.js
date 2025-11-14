@@ -1,3 +1,4 @@
+// Google Script URL，記得換成你的 exec URL
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwW8wW0SAWOOffHHOecQ2y-MiprFakxrmDWVYbxKHOd7nxr9qaK426HBmjLkUXOBj1E/exec";
 
 let currentNumber = 0;
@@ -22,7 +23,6 @@ async function getNextNumber(name){
   localStorage.setItem("currentName", currentName);
   localStorage.setItem("currentNumber", currentNumber);
 
-  // 寫入 Google Sheet
   await fetch(SCRIPT_URL, {
     method:"POST",
     body: JSON.stringify({name:currentName, number:currentNumber, seeds:0})
@@ -48,8 +48,6 @@ function loadShowPage(){
       collected++;
       if(collected === 5){
         document.getElementById("finishSection").style.display="block";
-
-        // 更新 Google Sheet seeds =5
         await fetch(SCRIPT_URL, {
           method:"POST",
           body: JSON.stringify({name:name, number:number, seeds:5})
