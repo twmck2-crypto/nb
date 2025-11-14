@@ -22,4 +22,14 @@
   <script src="js/core.js"></script>
   <script>
     loadTodayCount();
-    document.getElementById("getNumberBtn").addEventListener("click"
+    document.getElementById("getNumberBtn").addEventListener("click", async () => {
+      const name = document.getElementById("userName").value.trim();
+      if(!name){
+        alert("請輸入姓名或電話");
+        return;
+      }
+      await getNextNumber(name);
+    });
+  </script>
+</body>
+</html>
